@@ -33,7 +33,11 @@
             </form>
         </div>
         <hr>
-        ${result}
+        <br>
+        <h2 style="text-align: center">Cart Details</h2>
+        <h3 style="text-align: center">(Please add all the products to the product before selecting the quantity)</h3>
+        <br>
+        <br>
         <table style="width: 100%;
                      display: flex;
                      justify-content: center;
@@ -46,22 +50,31 @@
                 <th>Product Price</th>
                 <th>GST applied</th>
                 <th>Quantity of Product needed</th>
+                <th>Price of the Product</th>
             </tr>
+            <c:set var = "initial_total_cost" scope = "session" value = "${0}"/>
+            <c:set var = "initial_gst" scope = "session" value = "${18}"/>
+            <c:set var = "initial_grand_total" scope = "session" value = "${0}"/>
             <c:forEach items="${result}" var="item">
+                <c:set var = "initial_total_cost" scope = "session" value = "${initial_total_cost+item.product_price}"/>
                 <tr>
                     <td><c:out value="${item.product_code}" /></td>
                     <td><c:out value="${item.product_name}" /></td>
                     <td><c:out value="${item.product_price}" /></td>
                     <td><c:out value="${item.product_gst}" /></td>
-                    <td><input type="number" id="entry+${item.product_code}" onkeyup="checkMethod(${item.product_price},${item.product_code})"
-                    onchange="changeMethod()"></td>
+                    <c:set var = "initial_value" scope = "session" value = "${item.product_price*1}"/>
+                    <td>
+                        <input type="number" id="entry+${item.product_code}" value=1 onkeyup="checkMethod(${item.product_price},${item.product_code})"/>
+                    </td>
+                    <td id="price+${item.product_code}" class="price_of_product">${initial_value}</td>
                 </tr>
             </c:forEach>
+            <c:set var = "initial_grand_total" scope = "session" value = "${initial_total_cost+(initial_total_cost*18)/100}"/>
             <tr>
-                <td colspan="2">Total</td>
-                <td id="getTotal"></td>
-                <td id="getVat"></td>
-                <td id="grandTotal"></td>
+                <td colspan="3">Total</td>
+                <td id="getTotal">Initial cost is ${initial_total_cost} INR</td>
+                <td id="getVat">${initial_gst}</td>
+                <td id="grandTotal">Total Cost is ${initial_grand_total} INR</td>
             </tr>
         </table>
     </body>
@@ -69,26 +82,38 @@
         var total_price=0;
         var vat=0;
         var grand_total=0;
+
+
         function checkMethod(product_price,product_code)
         {
             var quant=0;
             quant= document.getElementById("entry"+"+"+product_code).value;
             var value= quant*product_price;
-            total_price+=value;
+            document.getElementById("price"+"+"+product_code).innerHTML=value.toString();
+
+            calculateValues();
+
+        }
+
+        function calculateValues()
+        {
+            total_price=0;
+            var all_prices= document.getElementsByClassName("price_of_product");
+            for(var i=0;i<all_prices.length;i++)
+            {
+                var value = parseInt(all_prices[i].innerHTML);
+                total_price += value;
+            }
+
             vat=((18*total_price)/100).toFixed(2);
 
             grand_total=total_price+parseInt(vat);
 
-            document.getElementById("getTotal").innerHTML="Total Price is"+total_price;
+            document.getElementById("getTotal").innerHTML="Total Price is "+total_price+" INR";
             document.getElementById("getVat").innerHTML="Vat is"+vat;
-            document.getElementById("grandTotal").innerHTML="Grand Total is"+grand_total;
-        }
+            document.getElementById("grandTotal").innerHTML="Grand Total is "+grand_total+" INR";
 
-        function changeMethod()
-        {
-            alert("changed");
         }
-
 
 
     </script>

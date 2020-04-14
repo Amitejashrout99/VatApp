@@ -1,56 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!--<html>
-    <head>
-        <title>Index page</title>
-    </head>
-    <body>
-        <h1><i>Welcome to the Page</i></h1>
-        <form action="add_new_alien" method="post">
-            Enter your alien id:
-            <input type="text" name="alien_id"/>
-            <br>
-            Enter your alien name:
-            <input type="text" name="alien_name"/>
-            <br>
-            <input type="submit">
-        </form>
-
-        <hr>
-
-        <h1><i>Find a particular Alien from the Database by ID</i></h1>
-        <form action="getParticularAlien">
-            Enter your alien id:
-            <input type="text" name="alien_id"/>
-            <br>
-            <input type="submit">
-        </form>
-
-        <hr>
-
-        <h1><i>Add new Alien to the Database</i></h1>
-        <form action="addAlien" method="post">
-            Enter your alien id:
-            <input type="text" name="alien_id"/>
-            <br>
-            Enter your alien name:
-            <input type="text" name="alien_name"/>
-            <br>
-            <input type="submit">
-        </form>
-
-        <hr>
-
-        <h1><i>Find a particular Alien from the Database by name</i></h1>
-        <form action="getParticularAlienByName">
-            Enter your alien name:
-            <input type="text" name="alien_name"/>
-            <br>
-            <input type="submit">
-        </form>
-
-    </body>
-</html>-->
-
 <html>
     <head>
         <title>Your Products</title>
@@ -69,7 +17,9 @@
     </style>
     <body>
         <h2 style="text-align: center;">Welcome to GST Billing app</h2>
-        <form action="addProduct" method="post">
+        <h3 style="text-align: center;">Add new product to the database</h3>
+        <form style="text-align: center;"
+                action="addProduct" method="post">
             Enter your Product Code:
             <br>
             <input type="number" name="product_code"/>
